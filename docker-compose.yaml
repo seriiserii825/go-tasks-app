@@ -24,7 +24,8 @@ services:
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
-      - ${PROJECT_ROOT}/postgres_data:/var/lib/postgresql/data
+      # postgres 18+: монтируем /var/lib/postgresql (данные лягут в 18/docker), не /data
+      - postgres_data:/var/lib/postgresql
       - ./pg_backups:/pgadmin/backups
     networks:
       - backend
@@ -33,7 +34,7 @@ services:
     image: adminer
     restart: "no"
     ports:
-      - 8088:8080
+      - 8000:8080
     environment:
       ADMINER_DEFAULT_SERVER: postgres
       ADMINER_DESIGN: nette # Красивая тема

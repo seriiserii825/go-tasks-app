@@ -1,10 +1,8 @@
 include .env
 export
 
-export PROJECT_ROOT=$(pwd)
-
 env-up:
-	docker compose up
+	docker compose up -d
 
 env-down:
 	docker compose down
