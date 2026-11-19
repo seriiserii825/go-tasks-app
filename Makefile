@@ -7,7 +7,7 @@ env-up:
 	docker compose up -d todoapp-postgres todoapp-adminer
 
 env-down:
-	docker compose down todoapp-postgres todoapp-adminer
+	docker compose down 
 
 env-port-forward:
 	@docker compose up -d port-forwarder
