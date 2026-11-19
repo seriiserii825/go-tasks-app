@@ -9,6 +9,12 @@ env-up:
 env-down:
 	docker compose down
 
+env-port-forward:
+	@docker compose up -d port-forwarder
+
+env-port-forward-stop:
+	@docker compose down port-forwarder
+
 migrate-create:
 	@if [ -z "$(seq)" ]; then \
 		echo "Error: seq variable is not set"; \
