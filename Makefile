@@ -52,3 +52,6 @@ migrate-force:
 		-path /migrations \
 		-database "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@todoapp-postgres:5432/$(POSTGRES_DB)?sslmode=disable" \
 		force -- $(v)
+
+todoapp-run:
+	@go run ./cmd/todoapp/main.go
