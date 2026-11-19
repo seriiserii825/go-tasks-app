@@ -8,11 +8,13 @@ env-down:
 	docker compose down
 
 migrate-create:
-	@if [ -z "$(name)" ]; then \
-		echo "Error: name variable is not set"; \
+	@if [ -z "$(seq)" ]; then \
+		echo "Error: seq variable is not set"; \
 		exit 1; \
 	fi
-	docker compose run --rm migrate \
+	mkdir -p migrations
+	docker compose run --rm --user $$(id -u):$$(id -g) migrate \
+		create \
 		-ext sql \
 		-dir /migrations \
-		-seq $(name)
+		-seq $(seq)
