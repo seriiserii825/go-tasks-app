@@ -31,8 +31,6 @@ services:
       # postgres 18+: монтируем /var/lib/postgresql (данные лягут в 18/docker), не /data
       - postgres_data:/var/lib/postgresql
       - ./pg_backups:/pgadmin/backups
-    networks:
-      - backend
 
   adminer: # Легче, чем pgAdmin!
     image: adminer
@@ -42,11 +40,6 @@ services:
     environment:
       ADMINER_DEFAULT_SERVER: postgres
       ADMINER_DESIGN: nette # Красивая тема
-    networks:
-      - backend
 
 volumes:
   postgres_data:
-
-networks:
-  backend:

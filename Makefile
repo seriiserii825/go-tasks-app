@@ -18,3 +18,19 @@ migrate-create:
 		-ext sql \
 		-dir /migrations \
 		-seq $(seq)
+
+migrate-up:
+	make migrate-action action=up
+
+migrate-down:
+	make migrate-action action=down
+
+migrate-action:
+	@if [ -z "$(action)" ]; then \
+		echo "Error: action variable is not set, make migrate-action action=\"up\""; \
+		exit 1; \
+	fi
+	docker compose run --rm  migrate \
+		-path /migrations \
+		-database "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=disable" \
+		"$(action)"
