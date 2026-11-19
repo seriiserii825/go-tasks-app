@@ -1,6 +1,8 @@
 include .env
 export
 
+MAKEFLAGS += --no-print-directory
+
 env-up:
 	docker compose up -d
 
@@ -20,17 +22,27 @@ migrate-create:
 		-seq $(seq)
 
 migrate-up:
-	make migrate-action action=up
+	@$(MAKE) migrate-action action=up
 
 migrate-down:
-	make migrate-action action=down
+	@$(MAKE) migrate-action action=down
 
 migrate-action:
 	@if [ -z "$(action)" ]; then \
 		echo "Error: action variable is not set, make migrate-action action=\"up\""; \
 		exit 1; \
 	fi
-	docker compose run --rm  migrate \
+	@docker compose run --rm  migrate \
 		-path /migrations \
-		-database "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=disable" \
+		-database "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres:5432/$(POSTGRES_DB)?sslmode=disable" \
 		"$(action)"
+
+migrate-force:
+	@if [ -z "$(v)" ]; then \
+		echo "Error: v variable is not set, make migrate-force v=1 (or v=-1 for no version)"; \
+		exit 1; \
+	fi
+	@docker compose run --rm migrate \
+		-path /migrations \
+		-database "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres:5432/$(POSTGRES_DB)?sslmode=disable" \
+		force -- $(v)
