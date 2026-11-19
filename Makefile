@@ -40,7 +40,7 @@ migrate-action:
 	fi
 	@docker compose run --rm  todoapp-postgres-migrate \
 		-path /migrations \
-		-database "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres:5432/$(POSTGRES_DB)?sslmode=disable" \
+		-database "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@todoapp-postgres:5432/$(POSTGRES_DB)?sslmode=disable" \
 		"$(action)"
 
 migrate-force:
@@ -50,5 +50,5 @@ migrate-force:
 	fi
 	@docker compose run --rm todoapp-postgres-migrate \
 		-path /migrations \
-		-database "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres:5432/$(POSTGRES_DB)?sslmode=disable" \
+		-database "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@todoapp-postgres:5432/$(POSTGRES_DB)?sslmode=disable" \
 		force -- $(v)
