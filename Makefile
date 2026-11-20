@@ -54,4 +54,5 @@ migrate-force:
 		force -- $(v)
 
 todoapp-run:
-	@go run ./cmd/todoapp/main.go
+	@go run ./cmd/todoapp/main.go && \
+	go mod tidy
