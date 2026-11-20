@@ -2,7 +2,10 @@ package users_transport_http
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+
+	core_logger "github.com/seriiserii825/go-tasks-app/internal/core/logger"
 )
 
 type CreateUserRequest struct {
@@ -18,8 +21,11 @@ type CreateUserResponse struct {
 }
 
 func (h *UserHTTPHandler) CreateUser(rw http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	log := core_logger.FromContext(ctx)
+	log.Debug("CreateUser called")
 	var request CreateUserRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
-
+		fmt.Fprintf(rw, "Error decoding request body: %v", err)
 	}
 }
