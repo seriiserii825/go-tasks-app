@@ -33,7 +33,7 @@ func NewHTTPServer(
 
 func (h *HTTPServer) RegisterAPIRouters(routes ...*APIVersionRouter) {
 	for _, router := range routes {
-		prefix := "/api" + string(router.apiVersion)
+		prefix := "/api/" + string(router.apiVersion)
 		h.mux.Handle(prefix+"/", http.StripPrefix(prefix, router))
 	}
 }

@@ -26,6 +26,8 @@ func (h *UserHTTPHandler) CreateUser(rw http.ResponseWriter, r *http.Request) {
 	log.Debug("CreateUser called")
 	var request CreateUserRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
-		fmt.Fprintf(rw, "Error decoding request body: %v", err)
+		fmt.Println("Failed to decode request body:")
 	}
+
+	rw.WriteHeader(http.StatusCreated)
 }
