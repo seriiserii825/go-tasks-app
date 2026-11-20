@@ -3,6 +3,7 @@ package core_http_middleware
 import (
 	"context"
 	"net/http"
+	"time"
 
 	"github.com/google/uuid"
 	core_logger "github.com/seriiserii825/go-tasks-app/internal/core/logger"
@@ -55,6 +56,21 @@ func Panic() Middleware {
 					responseHandler.PanicResponse(p, "during handle HTTP request got unexpected panic")
 				}
 			}()
+			next.ServeHTTP(w, r)
+		})
+	}
+}
+
+func Trace() Middleware {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ctx := r.Context()
+			log := core_logger.FromContext(ctx)
+			log.Debug(
+				">>> incoming HTTP request",
+				zap.Time("time", time.Now().UTC()),
+			)
+
 			next.ServeHTTP(w, r)
 		})
 	}
